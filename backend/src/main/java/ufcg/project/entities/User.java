@@ -2,7 +2,8 @@ package ufcg.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.data.annotation.Id;
-
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document(collection = "User")
 public class User {
 
     @Id

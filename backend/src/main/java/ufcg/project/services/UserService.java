@@ -15,7 +15,7 @@ public class UserService {
     UserRepository repository;
 
     public User addUser(User user) {
-        if(this.repository.findByEmail(user.getEmail()) != null) {
+        if(this.repository.findByEmail(user.getEmail()) == null) {
             this.repository.save(user);
             return user;
         }
