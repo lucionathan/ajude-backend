@@ -34,9 +34,9 @@ public class LoginController {
         Optional<User> authUsuario = userService.getUser(user.getEmail());
 
         // verificacoes
-        if (authUsuario.isEmpty()) {
-            throw new ServletException("User not find!");
-        }
+//        if (authUsuario.isEmpty()) {
+//            throw new ServletException("User not find!");
+//        }
 
         if (!authUsuario.get().getPassword().equals(user.getPassword())) {
             throw new ServletException("Invalid password!");
