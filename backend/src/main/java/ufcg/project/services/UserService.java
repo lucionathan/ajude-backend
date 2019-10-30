@@ -12,11 +12,16 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
+
+    @Autowired
+    private EmailService emailService;
+
 
     public User addUser(User user) {
         if(this.repository.findById(user.getEmail()) != null) {
             this.repository.save(user);
+            emailService.registrationMail(user.getFirstName(), user.getLastName(), user.getEmail());
             return user;
         }
         return null;
