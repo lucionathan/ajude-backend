@@ -15,7 +15,7 @@ public class UserService {
     UserRepository repository;
 
     public User addUser(User user) {
-        if(this.repository.findByEmail(user.getEmail()) != null) {
+        if(this.repository.findById(user.getEmail()) != null) {
             this.repository.save(user);
             return user;
         }
@@ -23,10 +23,7 @@ public class UserService {
     }
 
     public Optional<User> getUser(String email) {
-        return Optional.ofNullable(this.repository.findByEmail(email));
+        return this.repository.findById(email);
     }
 
-    public List<User> getUsers() {
-        return this.repository.findAll();
-    }
 }
