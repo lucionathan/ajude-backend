@@ -19,7 +19,7 @@ public class UserService {
 
 
     public User addUser(User user) {
-        if(this.repository.findById(user.getEmail()) != null) {
+        if(this.repository.findByEmail(user.getEmail()).isEmpty()) {
             this.repository.save(user);
             emailService.registrationMail(user.getFirstName(), user.getLastName(), user.getEmail());
             return user;
@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public Optional<User> getUser(String email) {
-        return this.repository.findById(email);
+        return this.repository.findByEmail(email);
     }
 
 }
