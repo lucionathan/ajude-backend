@@ -12,21 +12,23 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
+
+    @Autowired
+    private EmailService emailService;
+
 
     public User addUser(User user) {
-        if(this.repository.findByEmail(user.getEmail()) != null) {
+        if(this.repository.findById(user.getEmail()) != null) {
             this.repository.save(user);
+            emailService.registrationMail(user.getFirstName(), user.getLastName(), user.getEmail());
             return user;
         }
         return null;
     }
 
     public Optional<User> getUser(String email) {
-        return Optional.ofNullable(this.repository.findByEmail(email));
+        return this.repository.findById(email);
     }
 
-    public List<User> getUsers() {
-        return this.repository.findAll();
-    }
 }

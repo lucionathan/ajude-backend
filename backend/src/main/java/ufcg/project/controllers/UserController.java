@@ -18,15 +18,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        if(user != null) {
-            return new ResponseEntity<User>(service.addUser(user), HttpStatus.OK);
+
+        User u = service.addUser(user);
+        if(u != null) {
+            return new ResponseEntity<User>(u, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/getTest")
-    public ResponseEntity<List<User>> getusers() {
-        return new ResponseEntity<List<User>>(service.getUsers(), HttpStatus.OK);
     }
 
 }

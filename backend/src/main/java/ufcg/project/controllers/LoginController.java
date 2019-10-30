@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ufcg.project.DTOs.UserDTO;
 import ufcg.project.entities.User;
 import ufcg.project.services.JWTService;
 import ufcg.project.services.UserService;
@@ -21,29 +22,29 @@ public class LoginController {
     private UserService userService;
     private JWTService jwtService;
 
-    public LoginController(UserService usuariosService, JWTService jwtService) {
+    public LoginController(UserService userService, JWTService jwtService) {
         super();
-        this.userService = usuariosService;
+        this.userService = userService;
         this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
-    public LoginResponse authenticate(@RequestBody User user) throws ServletException {
+    public LoginResponse authenticate(@RequestBody UserDTO user) throws ServletException {
 
-        // Recupera o usuario
-        Optional<User> authUsuario = userService.getUser(user.getEmail());
+        // recover the user
+        Optional<User> authUser = userService.getUser(user.getEmail());
 
-        // verificacoes
-        if (authUsuario.isEmpty()) {
+        // checks
+        if (authUser.isEmpty()) {
             throw new ServletException("User not find!");
         }
 
-        if (!authUsuario.get().getPassword().equals(user.getPassword())) {
+        if (!authUser.get().getPassword().equals(user.getPassword())) {
             throw new ServletException("Invalid password!");
         }
 
 
-        String token = Jwts.builder().setSubject(authUsuario.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+        String token = Jwts.builder().setSubject(authUser.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
                 .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
 
         return new LoginResponse(token);

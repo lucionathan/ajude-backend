@@ -19,26 +19,28 @@ public class JWTService {
         this.userService = userService;
     }
 
-    public boolean usuarioExiste(String authorizationHeader) throws ServletException {
-        String subject = getSujeitoDoToken(authorizationHeader);
+    public boolean userExists(String authorizationHeader) throws ServletException {
+        String subject = getTokenSubject(authorizationHeader);
 
         return userService.getUser(subject).isPresent();
     }
 
-    public String getSujeitoDoToken(String authorizationHeader) throws ServletException {
+    public String getTokenSubject(String authorizationHeader) throws ServletException {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new ServletException("Token inexistente ou mal formatado!");
+            throw new ServletException("\n" + "Missing or badly formatted token!");
         }
 
         String token = authorizationHeader.substring(TOKEN_INDEX);
 
         String subject = null;
+
         subject = Jwts.parser().setSigningKey(TOKEN_KEY).parseClaimsJws(token).getBody().getSubject();
+
         return subject;
     }
 
-    public boolean usuarioTemPermissao(String authorizationHeader, String email) throws ServletException {
-        String subject = getSujeitoDoToken(authorizationHeader);
+    public boolean userHasPermission(String authorizationHeader, String email) throws ServletException {
+        String subject = getTokenSubject(authorizationHeader);
 
         Optional<User> optUsuario = userService.getUser(subject);
         return optUsuario.isPresent() && optUsuario.get().getEmail().equals(email);
