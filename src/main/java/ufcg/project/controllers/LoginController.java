@@ -31,6 +31,9 @@ public class LoginController {
     @PostMapping("/login")
     public LoginResponse authenticate(@RequestBody UserDTO user) throws ServletException {
 
+        // future user token
+        String token = "";
+
         // recover the user
         Optional<User> authUser = userService.getUser(user.getEmail());
 
@@ -43,9 +46,14 @@ public class LoginController {
             throw new ServletException("Invalid password!");
         }
 
-
-        String token = Jwts.builder().setSubject(authUser.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+        if(user.getSavePassword()){
+            token = Jwts.builder().setSubject(authUser.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 100000)).compact();
+        }else{
+            token = Jwts.builder().setSubject(authUser.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
                 .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
+        }
+        
 
         return new LoginResponse(token);
 
