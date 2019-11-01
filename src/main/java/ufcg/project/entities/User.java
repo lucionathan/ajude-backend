@@ -11,15 +11,13 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String creditCard;
     private String password;
 
     @JsonCreator
-    public User(String firstName, String lastName, String email, String creditCard, String password) {
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.creditCard = creditCard;
         this.password = password;
     }
 
@@ -34,36 +32,24 @@ public class User {
     public String getLastName() {
         return lastName;
     }
-    
-    public String getCreditCard() {
-        return this.creditCard;
-    }
-    
-    public boolean setCreditCard(creditCard) {
-        this.creditCard = creditCard;
-        return true;
-    }
 
-    public boolean setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-        return true;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public boolean setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return true;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public boolean setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return true;
     }
 }
