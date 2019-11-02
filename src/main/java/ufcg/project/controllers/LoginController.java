@@ -1,19 +1,24 @@
 package ufcg.project.controllers;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+import java.util.Optional;
+
+import javax.servlet.ServletException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import ufcg.project.DTOs.UserDTO;
 import ufcg.project.entities.User;
 import ufcg.project.services.JWTService;
 import ufcg.project.services.UserService;
-
-import javax.servlet.ServletException;
-import java.util.Date;
-import java.util.Optional;
-
+@CrossOrigin
 @RestController
 public class LoginController {
 
@@ -29,7 +34,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public LoginResponse authenticate(@RequestBody UserDTO user) throws ServletException {
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody UserDTO user) throws ServletException {
 
         // future user token
         String token = "";
@@ -39,11 +44,11 @@ public class LoginController {
 
         // checks
         if (authUser.isEmpty()) {
-            throw new ServletException("User not find!");
+        	return new ResponseEntity<LoginResponse>(new LoginResponse(token, false), HttpStatus.BAD_REQUEST);
         }
 
         if (!authUser.get().getPassword().equals(user.getPassword())) {
-            throw new ServletException("Invalid password!");
+        	return new ResponseEntity<LoginResponse>(new LoginResponse(token, false), HttpStatus.UNAUTHORIZED);
         }
 
         if(user.getSavePassword()){
@@ -54,16 +59,31 @@ public class LoginController {
                 .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
         }
         
-
-        return new LoginResponse(token);
+        return new ResponseEntity<LoginResponse>(new LoginResponse(token, true), HttpStatus.OK);
 
     }
 
     private class LoginResponse {
         public String token;
-
-        public LoginResponse(String token) {
+        public boolean ok;
+        public LoginResponse(String token, boolean ok) {
             this.token = token;
+            this.ok = ok;
+        }
+        public String getToken() {
+        	return this.token;
+        }
+        
+        public void setToken(String t) {
+        	this.token = t;
+        }
+        
+        public boolean getOk() {
+        	return this.ok;
+        }
+        
+        public void setOk(boolean nOK) {
+        	this.ok = nOK;
         }
     }
 }
