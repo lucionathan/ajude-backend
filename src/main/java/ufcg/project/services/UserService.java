@@ -27,6 +27,13 @@ public class UserService {
         return null;
     }
 
+    public User updatePassword(String email, String newPassword){
+        User u = this.repository.findByEmail(email).get();
+        u.setPassword(newPassword);
+        this.repository.save(u);
+        return this.repository.findByEmail(email).get();
+    }
+
     public Optional<User> getUser(String email) {
         return this.repository.findByEmail(email);
     }
