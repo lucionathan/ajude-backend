@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import ufcg.project.DTOs.UserDTOpass;
 import ufcg.project.entities.User;
+import ufcg.project.services.JWTService;
 import ufcg.project.services.UserService;
 
+import javax.servlet.ServletException;
 import java.util.Optional;
 
 @CrossOrigin
@@ -17,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private JWTService jwtService;
 
     @PostMapping("/user/register")
     public ResponseEntity<User> addUser(@RequestBody User user) {
@@ -29,15 +34,15 @@ public class UserController {
     }
 
     @PutMapping("/user/changepassword")
-    public ResponseEntity<Boolean> changePassword(@RequestBody UserDTOpass user){
-        Optional<User> authUser = service.getUser(user.getEmail());
+    public ResponseEntity<Boolean> changePassword(@RequestBody UserDTOpass user, @RequestHeader("Authorization") String header) throws ServletException {
 
+        Optional<User> authUser = service.getUser(user.getEmail());
+        System.out.println(">>>>>>>>>>>>>>>" + header);
+        if(!authUser.get().getPassword().equals(user.getPassword()) || !jwtService.userExists(header)){
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        }
         if(authUser.isEmpty()){
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-        }
-
-        if(!authUser.get().getPassword().equals(user.getPassword())){
-            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
 
         service.updatePassword(user.getEmail(), user.getNewPassword());
