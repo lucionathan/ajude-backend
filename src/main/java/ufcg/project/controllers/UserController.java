@@ -37,7 +37,6 @@ public class UserController {
     public ResponseEntity<Boolean> changePassword(@RequestBody UserDTOpass user, @RequestHeader("Authorization") String header) throws ServletException {
 
         Optional<User> authUser = service.getUser(user.getEmail());
-        System.out.println(">>>>>>>>>>>>>>>" + header);
         if(!authUser.get().getPassword().equals(user.getPassword()) || !jwtService.userExists(header)){
             return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
