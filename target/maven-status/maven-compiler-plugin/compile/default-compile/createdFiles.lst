@@ -4,7 +4,6 @@ ufcg/project/entities/Campaign.class
 ufcg/project/services/UserService.class
 ufcg/project/controllers/CampaignController.class
 ufcg/project/controllers/LoginController.class
-ufcg/project/controllers/CampaignController$LoginResponse.class
 ufcg/project/DTOs/UserDTOpass.class
 ufcg/project/ProjectApplication.class
 ufcg/project/services/EmailService.class

@@ -19,13 +19,13 @@ public class CampaignService {
 	private CommentaryRepository commentaryRepository;
 
 	
-	public Campaign addCampaign(CampaignDTO campaing) {
+	public Campaign addCampaign(CampaignDTO campaing, String owner) {
 		
 		if(!this.campaignRepository.findByShortName(campaing.getShortName()).isEmpty()) {
 			return null;
 		}
 		
-		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), campaing.getDate(), campaing.getShortUrl(), true, campaing.getGoal(), campaing.getDonated(), campaing.getOwner(), 0);
+		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), campaing.getDate(), campaing.getShortUrl(), true, campaing.getGoal(), campaing.getDonated(), owner, 0);
 		
 		this.campaignRepository.save(c);
 		return c;

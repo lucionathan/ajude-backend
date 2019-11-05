@@ -9,18 +9,16 @@ public class CampaignDTO {
     private String shortUrl;
     private double goal;
     private double donated;
-    private String owner;
 
 
     public CampaignDTO(String id, String shortName, String description, String date, 
-    		String shortUrl, double goal, double donated, String owner){
+    		String shortUrl, double goal, double donated){
         this.date = date;
         this.shortName = shortName;
         this.description = description;
         this.shortUrl = shortUrl;
         this.goal = goal;
         this.donated = donated;
-        this.owner=owner;
     }
 
 	public String getShortName() {
@@ -61,14 +59,6 @@ public class CampaignDTO {
 
 	public void setDonated(double donated) {
 		this.donated = donated;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
 	}
 
 	public void setDate(String date) {

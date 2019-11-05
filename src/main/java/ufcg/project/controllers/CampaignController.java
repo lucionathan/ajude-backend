@@ -33,8 +33,8 @@ public class CampaignController {
     @PostMapping("/campaign")
     public ResponseEntity<Campaign> addCampaign(@RequestBody CampaignDTO campaign, @RequestHeader("Authorization") String header) throws ServletException {
 
-        if(jwtService.userHasPermission(header, campaign.getOwner())){
-        	Campaign c = this.campaignService.addCampaign(campaign);
+        if(jwtService.userExists(header)){
+        	Campaign c = this.campaignService.addCampaign(campaign, jwtService.getTokenSubject(header));
         	if(c == null) {
         		return new ResponseEntity(HttpStatus.BAD_REQUEST);
         	}else {

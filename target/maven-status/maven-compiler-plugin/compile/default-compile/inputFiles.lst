@@ -3,8 +3,11 @@
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/Campaign.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/LoginController.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/CampaignService.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/CommentaryRepository.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/CampaignController.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/JWTService.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/Commentary.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/CommentaryDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/EmailService.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/User.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/UserController.java
