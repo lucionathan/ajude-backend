@@ -25,7 +25,7 @@ public class CampaignService {
 			return null;
 		}
 		
-		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), campaing.getDate(), campaing.getShortUrl(), true, campaing.getGoal(), campaing.getDonated(), owner, 0);
+		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), campaing.getDate(), campaing.getShortUrl(), true, campaing.getGoal(), 0, owner, 0);
 		
 		this.campaignRepository.save(c);
 		return c;

@@ -8,17 +8,15 @@ public class CampaignDTO {
     private String date;
     private String shortUrl;
     private double goal;
-    private double donated;
 
 
     public CampaignDTO(String id, String shortName, String description, String date, 
-    		String shortUrl, double goal, double donated){
+    		String shortUrl, double goal){
         this.date = date;
         this.shortName = shortName;
         this.description = description;
         this.shortUrl = shortUrl;
         this.goal = goal;
-        this.donated = donated;
     }
 
 	public String getShortName() {
@@ -51,14 +49,6 @@ public class CampaignDTO {
 
 	public void setGoal(double goal) {
 		this.goal = goal;
-	}
-
-	public double getDonated() {
-		return donated;
-	}
-
-	public void setDonated(double donated) {
-		this.donated = donated;
 	}
 
 	public void setDate(String date) {
