@@ -12,6 +12,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private String token;
 
     @JsonCreator
     public User(String firstName, String lastName, String email, String password) {
@@ -19,6 +20,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.token = "";
     }
 
     public String getFirstName() {
@@ -51,5 +53,23 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken(){ return token; }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                '}';
     }
 }

@@ -27,6 +27,10 @@ public class UserService {
         return null;
     }
 
+    public void updateUser(User user){
+        this.repository.save(user);
+    }
+
     public User updatePassword(String email, String newPassword){
         User u = this.repository.findByEmail(email).get();
         u.setPassword(newPassword);
@@ -36,6 +40,10 @@ public class UserService {
 
     public Optional<User> getUser(String email) {
         return this.repository.findByEmail(email);
+    }
+
+    public Optional<User> getUserByToken(String token){
+        return this.repository.findByToken(token);
     }
 
 }
