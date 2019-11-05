@@ -1,0 +1,16 @@
+ufcg/project/services/JWTService.class
+ufcg/project/entities/User.class
+ufcg/project/entities/Campaign.class
+ufcg/project/services/UserService.class
+ufcg/project/controllers/CampaignController.class
+ufcg/project/controllers/LoginController.class
+ufcg/project/controllers/CampaignController$LoginResponse.class
+ufcg/project/DTOs/UserDTOpass.class
+ufcg/project/ProjectApplication.class
+ufcg/project/services/EmailService.class
+ufcg/project/controllers/UserController.class
+ufcg/project/filter/TokenFilter.class
+ufcg/project/DTOs/CampaignDTO.class
+ufcg/project/repositories/UserRepository.class
+ufcg/project/controllers/LoginController$LoginResponse.class
+ufcg/project/DTOs/UserDTO.class

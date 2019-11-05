@@ -1,10 +1,16 @@
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/UserDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/UserRepository.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/Campaign.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/LoginController.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/CampaignService.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/CampaignController.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/JWTService.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/EmailService.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/User.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/UserController.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/UserDTOpass.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/CampaignRepository.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/filter/TokenFilter.java
-/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/LoginController.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/CampaignDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/UserService.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/ProjectApplication.java
