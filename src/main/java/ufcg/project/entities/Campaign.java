@@ -1,24 +1,27 @@
 package ufcg.project.entities;
 import java.time.LocalDate;
+
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import util.PossibleState;
 
 @Document(collection = "Campaign")
 public class Campaign {
-
+	
 	private long id;
     private String shortName;
     private String description;
-    private String date;
+    private LocalDate date;
     private String shortUrl;
-    private boolean status;
+    private PossibleState status;
     private double goal;
     private double donated;
     private String owner;
     private int likes;
 
 
-    public Campaign(long id, String shortName, String description, String date, String shortUrl,
-                    boolean status, double goal, double donated, String owner, int likes){
+    public Campaign(long id, String shortName, String description, LocalDate date, String shortUrl,
+                    PossibleState status, double goal, double donated, String owner, int likes){
         this.date = date;
         this.id = id;
         this.shortName = shortName;
@@ -30,7 +33,21 @@ public class Campaign {
         this.owner=owner;
         this.likes=likes;
     }
+    
+    public boolean isOver() {
+    	return this.date.compareTo(LocalDate.now()) < 0;
+    }
 
+    public void update() {
+    	if(this.isOver()) {
+    		if(donated >= goal) {
+    			this.status = PossibleState.FINISHED;
+    		}else {
+    			this.status = PossibleState.EXPIRED;
+    		}
+    	}
+    }
+    
 	public long getId() {
 		return id;
 	}
@@ -55,11 +72,11 @@ public class Campaign {
 		this.description = description;
 	}
 	
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	
@@ -71,11 +88,11 @@ public class Campaign {
 		this.shortUrl = shortUrl;
 	}
 	
-	public boolean isStatus() {
+	public PossibleState isStatus() {
 		return status;
 	}
 	
-	public void setStatus(boolean status) {
+	public void setStatus(PossibleState status) {
 		this.status = status;
 	}
 	

@@ -1,6 +1,12 @@
 package ufcg.project.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import ufcg.project.DTOs.CampaignDTO;
@@ -9,6 +15,7 @@ import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.repositories.CampaignRepository;
 import ufcg.project.repositories.CommentaryRepository;
+import util.PossibleState;
 
 @Service
 public class CampaignService {
@@ -20,12 +27,13 @@ public class CampaignService {
 
 	
 	public Campaign addCampaign(CampaignDTO campaing, String owner) {
-		
+		String[] data = campaing.getDate().split("/");
+        LocalDate expiresAt = LocalDate.of(Integer.parseInt(data[2]), Integer.parseInt(data[1]), Integer.parseInt(data[0]));
 		if(!this.campaignRepository.findByShortName(campaing.getShortName()).isEmpty()) {
 			return null;
 		}
 		
-		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), campaing.getDate(), campaing.getShortUrl(), true, campaing.getGoal(), 0, owner, 0);
+		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), expiresAt, campaing.getShortUrl(), PossibleState.ONGOING, campaing.getGoal(), 0, owner, 0);
 		
 		this.campaignRepository.save(c);
 		return c;
@@ -41,7 +49,21 @@ public class CampaignService {
 			return null;
 		}
 	}
-
+	
+	@Scheduled(fixedDelay =20 * 60 * 1000)
+	public void updateCampaigns() {
+		List<Campaign> campaigns = this.campaignRepository.findAll();
+		List<Campaign> toUpdate = new ArrayList<>();
+		for(Campaign c: campaigns) {
+			if(c.isOver()) {
+				c.update();
+				toUpdate.add(c);
+				
+			}
+		}
+		this.campaignRepository.saveAll(toUpdate);
+	}
+	
 	
 	private static final long LIMIT = 10000000000L;
 	private static long last = 0;
