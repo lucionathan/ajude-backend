@@ -1,5 +1,7 @@
 package ufcg.project.controllers;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import ufcg.project.services.EmailService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,6 +35,8 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
+
+    private final String TOKEN_KEY = "L112haSj78r4944i8khsSi6hhA";
 
     @PostMapping("/user/register")
     public ResponseEntity<User> addUser(@RequestBody User user) {
@@ -51,7 +56,9 @@ public class UserController {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }else{
             User user = u.get();
-            user.setToken(UUID.randomUUID().toString());
+            String token = Jwts.builder().setSubject(u.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+                    .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
+            user.setToken(token);
             service.updateUser(user);
             System.out.println(user.toString());
             String appURL = request.getScheme() + "://" + request.getServerName() + ":8080/user/reset?token=" + user.getToken();
@@ -62,17 +69,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/user/reset")
-    public ResponseEntity<Boolean> resetPassword(@RequestParam("token") String token, @RequestBody Password new_password){
+    public ResponseEntity<Boolean> resetPassword(@RequestParam("token") String token, @RequestBody Password new_password) throws ServletException {
 
         Optional<User> optional = service.getUserByToken(token);
+        System.out.println("DEBUG TOKEN " + token);
 
         if(optional.isPresent()){
             User resetUser = optional.get();
+            if(jwtService.userHasPermission("Bearer " + token, resetUser.getEmail())){
+                resetUser.setPassword(new_password.getPassword());
+                resetUser.setToken("");
+                service.addUser(resetUser);
+                return new ResponseEntity<>(true, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+            }
 
-            resetUser.setPassword(new_password.getPassword());
-            resetUser.setToken("");
-            service.addUser(resetUser);
-            return new ResponseEntity<>(true, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
