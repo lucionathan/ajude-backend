@@ -10,5 +10,7 @@ public class Email {
 		this.email = email;
 	}
 
+	public Email(){}
+
 	public String getEmail(){ return this.email; }
 }

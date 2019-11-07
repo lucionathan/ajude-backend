@@ -10,5 +10,7 @@ public class Password {
 		this.password = password;
 	}
 
+	public Password(){}
+
 	public String getPassword(){ return this.password; }
 }
