@@ -12,13 +12,15 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private String creditCard;
     private String token;
 
     @JsonCreator
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String creditCard, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.creditCard = creditCard;
         this.password = password;
         this.token = "";
     }
@@ -59,6 +61,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(String creditCard) {
+        this.creditCard = creditCard;
     }
 
     @Override

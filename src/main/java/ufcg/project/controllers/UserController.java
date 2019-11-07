@@ -79,7 +79,7 @@ public class UserController {
             if(jwtService.userHasPermission("Bearer " + token, resetUser.getEmail())){
                 resetUser.setPassword(new_password.getPassword());
                 resetUser.setToken("");
-                service.addUser(resetUser);
+                service.updateUser(resetUser);
                 return new ResponseEntity<>(true, HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
