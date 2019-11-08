@@ -39,6 +39,9 @@ public class CampaignService {
 		return c;
 	}
 	
+	public List<Campaign> getCampaignsBySubstring(String substring, boolean status){
+		return this.campaignRepository.findBySubstring(substring);
+	}
 	
 	public Commentary addCommentary(CommentaryDTO comment) {
 		if(this.campaignRepository.findById(comment.getCampaingID()).isPresent()) {

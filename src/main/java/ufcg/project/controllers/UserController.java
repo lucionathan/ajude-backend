@@ -106,7 +106,6 @@ public class UserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-
 }
 
 

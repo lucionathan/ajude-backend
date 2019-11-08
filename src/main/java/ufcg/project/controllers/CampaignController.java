@@ -1,13 +1,17 @@
 package ufcg.project.controllers;
 
+import java.util.List;
+
 import javax.servlet.ServletException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ufcg.project.DTOs.CampaignDTO;
@@ -61,6 +65,11 @@ public class CampaignController {
         }
 
     }
-
+    
+    @GetMapping("/campaign/substring")
+    public ResponseEntity<List<Campaign>> getCampaignsBySubString(@RequestParam(name="substring") String substring,@RequestParam(name="status")boolean status ){
+		
+    	return new ResponseEntity<List<Campaign>>(this.campaignService.getCampaignsBySubstring(substring, status), HttpStatus.OK);
+    }
    
 }
