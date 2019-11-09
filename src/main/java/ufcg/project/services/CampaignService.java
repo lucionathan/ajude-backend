@@ -2,8 +2,8 @@ package ufcg.project.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,7 +29,7 @@ public class CampaignService {
 	public Campaign addCampaign(CampaignDTO campaing, String owner) {
 		String[] data = campaing.getDate().split("/");
         LocalDate expiresAt = LocalDate.of(Integer.parseInt(data[2]), Integer.parseInt(data[1]), Integer.parseInt(data[0]));
-		if(!this.campaignRepository.findByShortName(campaing.getShortName()).isEmpty()) {
+		if(this.campaignRepository.findByShortUrl(campaing.getShortUrl()).isPresent()) {
 			return null;
 		}
 		
@@ -43,7 +43,7 @@ public class CampaignService {
 		if(status) {			
 			return this.campaignRepository.findActiveBySubstring(substring);
 		}else {
-			return this.campaignRepository.findByAnyBySubstring(substring);
+			return this.campaignRepository.findAnyBySubstring(substring);
 		}
 	}
 	
@@ -82,5 +82,20 @@ public class CampaignService {
 	    id = (last + 1) % LIMIT;
 	  }
 	  return last = id;
+	}
+
+	public Optional<Campaign> getCampaignByShorturl(String shortUrl) {
+		return this.campaignRepository.findByShortUrl(shortUrl);
+	}
+
+	public Campaign updateCampaign(Campaign campaign) {
+		return this.campaignRepository.save(campaign);
+	}
+
+	public void deleteCampaign(String shortUrl) {
+		Optional<Campaign> c = this.campaignRepository.findByShortUrl(shortUrl);
+		if(c.isPresent()) {
+			this.campaignRepository.deleteById(c.get().getId());
+		}
 	}
 }

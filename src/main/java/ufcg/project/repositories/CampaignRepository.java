@@ -13,10 +13,11 @@ import util.PossibleState;
 @Document("Campaign")
 public interface CampaignRepository extends MongoRepository<Campaign, Long>{
 	public Optional<Campaign> findByShortName(String shortName);
+	public Optional<Campaign> findByShortUrl(String shortUrl);
 	
 	@Query("{'shortName' : { $regex : ?0 }, 'status': ONGOING}")
 	public List<Campaign> findActiveBySubstring(String shortName);
 	
 	@Query("{'shortName' : { $regex : ?0 }}")
-	public List<Campaign> findByAnyBySubstring(String shortName);
+	public List<Campaign> findAnyBySubstring(String shortName);
 }
