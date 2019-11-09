@@ -40,7 +40,11 @@ public class CampaignService {
 	}
 	
 	public List<Campaign> getCampaignsBySubstring(String substring, boolean status){
-		return this.campaignRepository.findBySubstring(substring);
+		if(status) {			
+			return this.campaignRepository.findActiveBySubstring(substring);
+		}else {
+			return this.campaignRepository.findByAnyBySubstring(substring);
+		}
 	}
 	
 	public Commentary addCommentary(CommentaryDTO comment) {

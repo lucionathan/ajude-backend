@@ -14,6 +14,9 @@ import util.PossibleState;
 public interface CampaignRepository extends MongoRepository<Campaign, Long>{
 	public Optional<Campaign> findByShortName(String shortName);
 	
-	@Query("{'shortName' : { $regex : ?0 } }")
-	public List<Campaign> findBySubstring(String shortName);
+	@Query("{'shortName' : { $regex : ?0 }, 'status': ONGOING}")
+	public List<Campaign> findActiveBySubstring(String shortName);
+	
+	@Query("{'shortName' : { $regex : ?0 }}")
+	public List<Campaign> findByAnyBySubstring(String shortName);
 }
