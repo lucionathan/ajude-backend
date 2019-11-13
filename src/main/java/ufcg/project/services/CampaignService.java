@@ -33,7 +33,7 @@ public class CampaignService {
 			return null;
 		}
 		
-		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), expiresAt, campaing.getShortUrl(), PossibleState.ONGOING, campaing.getGoal(), 0, owner, 0);
+		Campaign c = new Campaign(this.getID(), campaing.getShortName(), campaing.getDescription(), expiresAt, campaing.getShortUrl(), PossibleState.ONGOING, campaing.getGoal(), 0, owner, 0, 0);
 		
 		this.campaignRepository.save(c);
 		return c;
@@ -70,7 +70,16 @@ public class CampaignService {
 		}
 		this.campaignRepository.saveAll(toUpdate);
 	}
-	
+
+	public boolean updateLikeDeslike(String shortURL, String choice, String email){
+		Campaign c = this.campaignRepository.findByShortUrl(shortURL).get();
+		if(choice == "like"){
+			return c.updateLike(email);
+		}else if(choice == "deslike"){
+			return c.updateDeslike(email);
+		}
+		return false;
+	}
 	
 	private static final long LIMIT = 10000000000L;
 	private static long last = 0;

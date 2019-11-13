@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
+import ufcg.project.DTOs.LikeDeslikeDTO;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.services.CampaignService;
@@ -121,5 +122,22 @@ public class CampaignController {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     }
+
+    @PutMapping("/campaign/updateLikeDeslike")
+	public ResponseEntity<Boolean> updateLikeDeslike(@RequestBody LikeDeslikeDTO dto, @RequestHeader("Authorization") String header) throws ServletException{
+    	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortURL());
+    	if(c.isPresent()){
+    		if(this.jwtService.userHasPermission(header, dto.getEmail())){
+    			Boolean retorno = this.campaignService.updateLikeDeslike(dto.getShortURL(), dto.getChoice(), dto.getEmail());
+    			if(retorno){
+    				return new ResponseEntity<>(retorno, HttpStatus.OK);
+				}else{
+    				return new ResponseEntity<>(retorno, HttpStatus.BAD_REQUEST);
+				}
+			}
+			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+	}
    
 }

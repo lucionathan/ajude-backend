@@ -1,6 +1,11 @@
 package ufcg.project.entities;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.data.mongodb.core.aggregation.VariableOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import util.PossibleState;
@@ -18,10 +23,15 @@ public class Campaign {
     private double donated;
     private String owner;
     private int likes;
+    private int deslikes;
+	private Set pessoasLike;
+	private Set pessoasDeslike;
 
+	public Campaign(){}
 
+	@JsonCreator
     public Campaign(long id, String shortName, String description, LocalDate date, String shortUrl,
-                    PossibleState status, double goal, double donated, String owner, int likes){
+                    PossibleState status, double goal, double donated, String owner, int likes, int deslikes){
         this.date = date;
         this.id = id;
         this.shortName = shortName;
@@ -30,8 +40,11 @@ public class Campaign {
         this.status = status;
         this.goal = goal;
         this.donated = donated;
-        this.owner=owner;
-        this.likes=likes;
+        this.owner = owner;
+        this.likes = likes;
+        this.deslikes = deslikes;
+        this.pessoasDeslike = new HashSet();
+		this.pessoasLike = new HashSet();
     }
     
     public boolean isOver() {
@@ -47,6 +60,44 @@ public class Campaign {
     		}
     	}
     }
+
+    public Boolean updateLike(String email){
+    	if(!this.pessoasDeslike.contains(email) && !this.pessoasLike.contains(email)){
+    		this.pessoasLike.add(email);
+    		this.likes += 1;
+    		return true;
+		}else if (this.pessoasLike.contains(email)){
+    		this.pessoasLike.remove(email);
+    		this.likes -= 1;
+    		return false;
+		}else if(this.pessoasDeslike.contains(email)){
+    		this.pessoasDeslike.remove(email);
+    		this.pessoasLike.add(email);
+    		this.likes += 1;
+    		this.deslikes -= 1;
+    		return true;
+		}
+		return false;
+	}
+
+	public Boolean updateDeslike(String email){
+		if(!this.pessoasDeslike.contains(email) && !this.pessoasLike.contains(email)){
+			this.pessoasDeslike.add(email);
+			this.deslikes += 1;
+			return true;
+		}else if (this.pessoasDeslike.contains(email)){
+			this.pessoasDeslike.remove(email);
+			this.deslikes -= 1;
+			return true;
+		}else if(this.pessoasLike.contains(email)){
+			this.pessoasLike.remove(email);
+			this.pessoasDeslike.add(email);
+			this.likes -= 1;
+			this.deslikes += 1;
+			return true;
+		}
+		return false;
+	}
     
 	public long getId() {
 		return id;
@@ -126,5 +177,29 @@ public class Campaign {
 	
 	public void setLikes(int likes) {
 		this.likes = likes;
+	}
+
+	public int getDeslikes() {
+		return deslikes;
+	}
+
+	public void setDeslikes(int deslikes) {
+		this.deslikes = deslikes;
+	}
+
+	public Set getPessoasLike() {
+		return pessoasLike;
+	}
+
+	public void setPessoasLike(Set pessoasLike) {
+		this.pessoasLike = pessoasLike;
+	}
+
+	public Set getPessoasDeslike() {
+		return pessoasDeslike;
+	}
+
+	public void setPessoasDeslike(Set pessoasDeslike) {
+		this.pessoasDeslike = pessoasDeslike;
 	}
 }
