@@ -71,18 +71,18 @@ public class CampaignService {
 		this.campaignRepository.saveAll(toUpdate);
 	}
 
-	public boolean updateLikeDeslike(Campaign campaign, String choice, String email){
+	public Campaign updateLikeDeslike(Campaign campaign, String choice, String email){
 		
 		if(choice.equals("like")){
 			campaign.updateLike(email);
 			this.campaignRepository.save(campaign);
-			return true;
+			return campaign;
 		}else if(choice.equals("deslike")){
 			campaign.updateDeslike(email);
 			this.campaignRepository.save(campaign);
-			return true;
+			return campaign;
 		}
-		return false;
+		return campaign;
 	}
 	
 	private static final long LIMIT = 10000000000L;

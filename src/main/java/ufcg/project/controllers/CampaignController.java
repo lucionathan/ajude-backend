@@ -128,8 +128,8 @@ public class CampaignController {
     	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortUrl());
     	if(c.isPresent()){
     		if(this.jwtService.userExists(header)){
-    			Boolean retorno = this.campaignService.updateLikeDeslike(c.get(), dto.getChoice().trim(), jwtService.getTokenSubject(header));
-    			if(retorno){
+    			Campaign retorno = this.campaignService.updateLikeDeslike(c.get(), dto.getChoice().trim(), jwtService.getTokenSubject(header));
+    			if(retorno != null){
     				return new ResponseEntity<>(this.campaignService.getCampaignByShorturl(dto.getShortUrl()).get(), HttpStatus.OK);
 				}else{
     				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
