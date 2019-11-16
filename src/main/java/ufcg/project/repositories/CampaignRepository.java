@@ -14,6 +14,7 @@ import util.PossibleState;
 public interface CampaignRepository extends MongoRepository<Campaign, Long>{
 	public Optional<Campaign> findByShortName(String shortName);
 	public Optional<Campaign> findByShortUrl(String shortUrl);
+	public List<Campaign> findByOwner(String owner);
 	
 	@Query("{'shortName' : { $regex : ?0 }, 'status': ONGOING}")
 	public List<Campaign> findActiveBySubstring(String shortName);

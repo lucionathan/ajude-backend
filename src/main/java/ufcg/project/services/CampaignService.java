@@ -111,4 +111,8 @@ public class CampaignService {
 			this.campaignRepository.deleteById(c.get().getId());
 		}
 	}
+	
+	public List<Campaign> getCampaignByOwner(String owner){
+		return this.campaignRepository.findByOwner(owner);
+	}
 }
