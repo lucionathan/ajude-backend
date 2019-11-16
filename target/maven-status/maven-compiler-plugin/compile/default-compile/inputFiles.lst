@@ -16,6 +16,7 @@
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/util/PossibleState.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/UserDTOpass.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/CampaignRepository.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/LikeDeslikeDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/filter/TokenFilter.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/CampaignDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/UserService.java

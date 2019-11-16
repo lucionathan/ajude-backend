@@ -3,23 +3,21 @@ package ufcg.project.DTOs;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class LikeDeslikeDTO {
-    String shortURL;
+    String shortUrl;
     String choice;
-    String email;
 
     @JsonCreator
-    public LikeDeslikeDTO(String shortURL, String choice, String email){
-        this.shortURL = shortURL;
+    public LikeDeslikeDTO(String shortUrl, String choice){
+        this.shortUrl = shortUrl;
         this.choice = choice;
-        this.email = email;
     }
 
-    public String getShortURL() {
-        return shortURL;
+    public String getShortUrl() {
+        return shortUrl;
     }
 
-    public void setShortURL(String shortURL) {
-        this.shortURL = shortURL;
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
     }
 
     public String getChoice() {
@@ -28,13 +26,5 @@ public class LikeDeslikeDTO {
 
     public void setChoice(String choice) {
         this.choice = choice;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

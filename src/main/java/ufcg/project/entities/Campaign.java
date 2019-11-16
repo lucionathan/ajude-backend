@@ -24,8 +24,8 @@ public class Campaign {
     private String owner;
     private int likes;
     private int deslikes;
-	private Set pessoasLike;
-	private Set pessoasDeslike;
+	private Set<String> pessoasLike;
+	private Set<String> pessoasDeslike;
 
 	public Campaign(){}
 
@@ -61,23 +61,20 @@ public class Campaign {
     	}
     }
 
-    public Boolean updateLike(String email){
-    	if(!this.pessoasDeslike.contains(email) && !this.pessoasLike.contains(email)){
-    		this.pessoasLike.add(email);
-    		this.likes += 1;
-    		return true;
-		}else if (this.pessoasLike.contains(email)){
-    		this.pessoasLike.remove(email);
-    		this.likes -= 1;
-    		return false;
-		}else if(this.pessoasDeslike.contains(email)){
+    public void updateLike(String email){
+    	
+    	if(this.pessoasDeslike.contains(email)) {
     		this.pessoasDeslike.remove(email);
     		this.pessoasLike.add(email);
-    		this.likes += 1;
-    		this.deslikes -= 1;
-    		return true;
-		}
-		return false;
+    		this.deslikes--;
+    		this.likes++;
+    	}else if(this.pessoasLike.contains(email)) {
+    		this.pessoasLike.remove(email);
+    		this.likes--;
+    	}else {
+    		this.pessoasLike.add(email);
+    		this.likes++;
+    	}
 	}
 
 	public Boolean updateDeslike(String email){

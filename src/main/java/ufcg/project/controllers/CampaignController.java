@@ -124,20 +124,20 @@ public class CampaignController {
     }
 
     @PutMapping("/campaign/updateLikeDeslike")
-	public ResponseEntity<Boolean> updateLikeDeslike(@RequestBody LikeDeslikeDTO dto, @RequestHeader("Authorization") String header) throws ServletException{
-    	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortURL());
+	public ResponseEntity<Campaign> updateLikeDeslike(@RequestBody LikeDeslikeDTO dto, @RequestHeader("Authorization") String header) throws ServletException{
+    	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortUrl());
     	if(c.isPresent()){
-    		if(this.jwtService.userHasPermission(header, dto.getEmail())){
-    			Boolean retorno = this.campaignService.updateLikeDeslike(dto.getShortURL(), dto.getChoice(), dto.getEmail());
+    		if(this.jwtService.userExists(header)){
+    			Boolean retorno = this.campaignService.updateLikeDeslike(c.get(), dto.getChoice().trim(), jwtService.getTokenSubject(header));
     			if(retorno){
-    				return new ResponseEntity<>(retorno, HttpStatus.OK);
+    				return new ResponseEntity<>(this.campaignService.getCampaignByShorturl(dto.getShortUrl()).get(), HttpStatus.OK);
 				}else{
-    				return new ResponseEntity<>(retorno, HttpStatus.BAD_REQUEST);
+    				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 				}
 			}
-			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
    
 }

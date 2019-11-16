@@ -71,12 +71,16 @@ public class CampaignService {
 		this.campaignRepository.saveAll(toUpdate);
 	}
 
-	public boolean updateLikeDeslike(String shortURL, String choice, String email){
-		Campaign c = this.campaignRepository.findByShortUrl(shortURL).get();
-		if(choice == "like"){
-			return c.updateLike(email);
-		}else if(choice == "deslike"){
-			return c.updateDeslike(email);
+	public boolean updateLikeDeslike(Campaign campaign, String choice, String email){
+		
+		if(choice.equals("like")){
+			campaign.updateLike(email);
+			this.campaignRepository.save(campaign);
+			return true;
+		}else if(choice.equals("deslike")){
+			campaign.updateDeslike(email);
+			this.campaignRepository.save(campaign);
+			return true;
 		}
 		return false;
 	}
