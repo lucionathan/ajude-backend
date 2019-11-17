@@ -2,9 +2,14 @@ package ufcg.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ufcg.project.DTOs.DonationDTO;
+import ufcg.project.entities.Campaign;
+import ufcg.project.entities.Donation;
 import ufcg.project.entities.User;
 import ufcg.project.repositories.UserRepository;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,4 +51,10 @@ public class UserService {
         return this.repository.findByToken(token);
     }
 
+    public void doDonation(double donationValue, User user, Campaign campaign) {
+//        Calendar calendar = new GregorianCalendar().getInstance();
+        Donation donation = new Donation(donationValue, campaign);
+        user.addDonation(donation);
+        repository.save(user);
+    }
 }

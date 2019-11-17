@@ -1,13 +1,12 @@
 package ufcg.project.entities;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.data.mongodb.core.aggregation.VariableOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import ufcg.project.DTOs.DonationDTO;
 import util.PossibleState;
 
 @Document(collection = "Campaign")
@@ -16,7 +15,7 @@ public class Campaign {
 	private long id;
     private String shortName;
     private String description;
-    private LocalDate date;
+	private LocalDate date;
     private String shortUrl;
     private PossibleState status;
     private double goal;
@@ -26,6 +25,7 @@ public class Campaign {
     private int deslikes;
 	private Set<String> pessoasLike;
 	private Set<String> pessoasDeslike;
+	private List<DonationDTO> donations;
 
 	public Campaign(){}
 
@@ -45,6 +45,7 @@ public class Campaign {
         this.deslikes = deslikes;
         this.pessoasDeslike = new HashSet();
 		this.pessoasLike = new HashSet();
+		this.donations = new LinkedList<>();
     }
     
     public boolean isOver() {
@@ -199,4 +200,11 @@ public class Campaign {
 	public void setPessoasDeslike(Set pessoasDeslike) {
 		this.pessoasDeslike = pessoasDeslike;
 	}
+
+	public void addDonation(DonationDTO donation) {
+		this.donations.add(donation);
+		this.donated += donation.getDonatedValue();
+	}
+
+	public List<DonationDTO> getDonations() { return donations; }
 }

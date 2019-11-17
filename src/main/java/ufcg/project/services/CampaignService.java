@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
+import ufcg.project.DTOs.DonationDTO;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
+import ufcg.project.entities.Donation;
+import ufcg.project.entities.User;
 import ufcg.project.repositories.CampaignRepository;
 import ufcg.project.repositories.CommentaryRepository;
 import util.PossibleState;
@@ -114,5 +117,12 @@ public class CampaignService {
 	
 	public List<Campaign> getCampaignByOwner(String owner){
 		return this.campaignRepository.findByOwner(owner);
+	}
+
+	public Campaign doDonation(double donationValue, User donator, Campaign campaign) {
+		DonationDTO donation = new DonationDTO(donationValue, donator);
+		campaign.addDonation(donation);
+		campaignRepository.save(campaign);
+		return campaign;
 	}
 }
