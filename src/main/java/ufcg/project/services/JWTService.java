@@ -45,4 +45,12 @@ public class JWTService {
         Optional<User> optUsuario = userService.getUser(subject);
         return optUsuario.isPresent() && optUsuario.get().getEmail().equals(email);
     }
+
+    public User getUserByToken(String header) throws ServletException {
+
+        String subject = getTokenSubject(header);
+
+        return userService.getUser(subject).get();
+    }
+
 }

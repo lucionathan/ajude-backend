@@ -2,6 +2,7 @@ package ufcg.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ufcg.project.entities.Donation;
 import ufcg.project.entities.User;
 import ufcg.project.repositories.UserRepository;
 
@@ -46,4 +47,8 @@ public class UserService {
         return this.repository.findByToken(token);
     }
 
+    public void doDonation(User u, Donation donation) {
+        u.addDonation(donation);
+        this.repository.save(u);
+    }
 }

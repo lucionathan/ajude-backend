@@ -3,6 +3,11 @@ package ufcg.project.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 @Document(collection = "User")
 public class User {
 
@@ -14,6 +19,7 @@ public class User {
     private String password;
     private String creditCard;
     private String token;
+    private List<Donation> donations;
 
     @JsonCreator
     public User(String firstName, String lastName, String email, String creditCard, String password) {
@@ -23,6 +29,7 @@ public class User {
         this.creditCard = creditCard;
         this.password = password;
         this.token = "";
+        donations = new LinkedList<>();
     }
 
     public String getFirstName() {
@@ -70,6 +77,11 @@ public class User {
     public void setCreditCard(String creditCard) {
         this.creditCard = creditCard;
     }
+
+    public void addDonation(Donation donation) {
+        this.donations.add(donation);
+    }
+    
 
     @Override
     public String toString() {
