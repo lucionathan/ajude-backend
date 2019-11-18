@@ -1,13 +1,12 @@
 package ufcg.project.entities;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.data.mongodb.core.aggregation.VariableOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import ufcg.project.DTOs.DonationDTO;
 import util.PossibleState;
 
 @Document(collection = "Campaign")
@@ -26,6 +25,7 @@ public class Campaign {
     private int deslikes;
 	private Set<String> pessoasLike;
 	private Set<String> pessoasDeslike;
+	private List<DonationDTO> donations;
 
 	public Campaign(){}
 
@@ -199,4 +199,10 @@ public class Campaign {
 	public void setPessoasDeslike(Set pessoasDeslike) {
 		this.pessoasDeslike = pessoasDeslike;
 	}
+
+    public void addDonation(DonationDTO donation) {
+		this.donated += donation.getDonatedValue();
+		this.donations.add(donation);
+		update();
+    }
 }
