@@ -105,6 +105,16 @@ public class UserController {
         service.updatePassword(user.getEmail(), user.getNewPassword());
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+    
+    @GetMapping("user/{email}")
+    public ResponseEntity<User> getUser(@PathVariable String email){
+    	Optional<User> user = this.service.getUser(email);
+    	if(user.isPresent()) {
+    		return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+    	}else {
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
+    }
 
 }
 
