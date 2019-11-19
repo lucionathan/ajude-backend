@@ -136,7 +136,7 @@ public class Campaign {
 		this.shortUrl = shortUrl;
 	}
 	
-	public PossibleState isStatus() {
+	public PossibleState getStatus() {
 		return status;
 	}
 	
