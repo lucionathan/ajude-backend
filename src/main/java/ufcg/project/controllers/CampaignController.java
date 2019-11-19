@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,13 +107,13 @@ public class CampaignController {
     	}
     }
     
-    @DeleteMapping("/campaign/{shortUrl}")
-    public ResponseEntity deleteCampaignByShortUrl(@PathVariable("shortUrl") String shortUrl, @RequestHeader("Authorization") String header) throws ServletException{
+    @PutMapping("/campaign/{shortUrl}/end")
+    public ResponseEntity<Campaign> endCampaignByShortUrl(@PathVariable("shortUrl") String shortUrl, @RequestHeader("Authorization") String header) throws ServletException{
     	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(shortUrl);
     	if(c.isPresent()) {
     		if(this.jwtService.userHasPermission(header, c.get().getOwner())) {
-    			this.campaignService.deleteCampaign(shortUrl);
-    			return new ResponseEntity<>(HttpStatus.OK);
+    			Campaign toReturn = this.campaignService.endCampaign(shortUrl);
+    			return new ResponseEntity<Campaign>(toReturn, HttpStatus.OK);
     		}else {
     			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     		}

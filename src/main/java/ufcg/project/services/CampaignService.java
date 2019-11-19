@@ -122,4 +122,11 @@ public class CampaignService {
 		this.campaignRepository.save(campaign);
 		return campaign;
     }
+
+	public Campaign endCampaign(String shortUrl) {
+		Campaign c = this.campaignRepository.findByShortUrl(shortUrl).get();
+		c.setStatus(PossibleState.TERMINATED);
+		this.campaignRepository.save(c);
+		return c;
+	}
 }
