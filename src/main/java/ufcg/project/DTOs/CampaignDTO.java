@@ -10,12 +10,11 @@ public class CampaignDTO {
     private double goal;
 
 
-    public CampaignDTO(String id, String shortName, String description, String date, 
-    		String shortUrl, double goal){
-        this.date = date;
+    public CampaignDTO(String shortName, String description, String date, String shortUrl, double goal){
         this.shortName = shortName;
-        this.description = description;
-        this.shortUrl = shortUrl;
+		this.description = description;
+		this.date = date;
+		this.shortUrl = shortUrl;
         this.goal = goal;
     }
 

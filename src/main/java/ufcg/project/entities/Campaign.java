@@ -45,6 +45,7 @@ public class Campaign {
         this.deslikes = deslikes;
         this.pessoasDeslike = new HashSet();
 		this.pessoasLike = new HashSet();
+		this.donations = new LinkedList<>();
     }
     
     public boolean isOver() {
