@@ -6,10 +6,10 @@ import ufcg.project.entities.User;
 public class DonationDTO {
 
     private double donatedValue;
-    private User user;
+    private String user;
 
     @JsonCreator
-    public DonationDTO(double donatedValue, User user) {
+    public DonationDTO(double donatedValue, String user) {
             this.donatedValue = donatedValue;
             this.user = user;
     }
@@ -22,11 +22,11 @@ public class DonationDTO {
         this.donatedValue = donatedValue;
     }
 
-    public User getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 }
