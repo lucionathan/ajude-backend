@@ -38,6 +38,11 @@ public class CampaignController {
         this.campaignService = campaignService;
     }
 
+    @GetMapping("/campaign")
+    public ResponseEntity<List<Campaign>> getActiveCampaigns(){
+    	return new ResponseEntity<List<Campaign>>(this.campaignService.getActiveCampaigns(), HttpStatus.OK);
+    }
+    
     @PostMapping("/campaign")
     public ResponseEntity<Campaign> addCampaign(@RequestBody CampaignDTO campaign, @RequestHeader("Authorization") String header) throws ServletException {
 

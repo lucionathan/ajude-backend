@@ -129,4 +129,8 @@ public class CampaignService {
 		this.campaignRepository.save(c);
 		return c;
 	}
+
+	public List<Campaign> getActiveCampaigns() {
+		return this.campaignRepository.getActive();
+	}
 }

@@ -21,4 +21,7 @@ public interface CampaignRepository extends MongoRepository<Campaign, Long>{
 	
 	@Query("{'shortName' : { $regex : ?0 }}")
 	public List<Campaign> findAnyBySubstring(String shortName);
+	
+	@Query("{'status' : ONGOING}")
+	public List<Campaign> getActive();
 }
