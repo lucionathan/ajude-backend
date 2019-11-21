@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import ufcg.project.DTOs.AnswerDTO;
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
+import ufcg.project.DTOs.DeleteCommentDTO;
 import ufcg.project.DTOs.DonationDTO;
-import ufcg.project.entities.Answer;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.repositories.CampaignRepository;
@@ -54,7 +53,7 @@ public class CampaignService {
 
 		Optional<Campaign> ca = this.campaignRepository.findByShortUrl(comment.getShortUrl());
 		if(ca.isPresent()) {
-			Commentary c = new Commentary(comment.getText(), comment.getShortUrl(), getID(), comment.getEmail());
+			Commentary c = new Commentary(comment.getText(), comment.getShortUrl(), getID(), comment.getEmail(), comment.getFather());
 			Campaign caa = ca.get();
 			caa.addCommentary(c);
 			this.campaignRepository.save(caa);
@@ -141,16 +140,27 @@ public class CampaignService {
 		return this.campaignRepository.getActive();
 	}
 
-	public Answer addAnswer(AnswerDTO answer) {
+	public Commentary addAnswer(CommentaryDTO answer) {
 		Campaign c = this.campaignRepository.findByShortUrl(answer.getShortUrl()).get();
-		Commentary co = c.getCommentary(answer.getCommentaryID());
+		Commentary co = c.getCommentary(answer.getFather());
 		if(co != null){
-			Answer a = new Answer(answer.getText(), answer.getCommentaryID(), getID(), answer.getEmail(), answer.getShortUrl());
-			co.setAnswer(a);
+			Commentary a = new Commentary(answer.getText(), answer.getShortUrl(), getID(), answer.getEmail(), answer.getFather());
+			co.addAnswer(a);
 			c.updateCommentary(co);
 			this.campaignRepository.save(c);
 			return a;
 		}
 		return null;
+	}
+
+	public Boolean deleteCommentary(DeleteCommentDTO delComment, String emailToken) {
+		Campaign c = this.campaignRepository.findByShortUrl(delComment.getShortUrl()).get();
+		if(c.getOwner().equals(emailToken)){
+			Boolean response = c.deleteCommentary(delComment);
+			this.campaignRepository.save(c);
+			return response;
+		}else{
+			return false;
+		}
 	}
 }

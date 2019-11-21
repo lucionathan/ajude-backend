@@ -3,21 +3,35 @@ package ufcg.project.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(collection = "Comment")
 public class Commentary {
 	private String text;
 	private String shortUrl;
 	@Id
 	private long id;
-	private Answer answer;
+	private long father;
+	private ArrayList<Commentary> answers;
 	private String email;
+	private Boolean isActive;
 	
-	public Commentary(String text, String shortUrl, long id, String email) {
+	public Commentary(String text, String shortUrl, long id, String email, Long father) {
 		this.text = text;
 		this.shortUrl = shortUrl;
 		this.id = id;
 		this.email = email;
-		this.answer = null;
+		this.answers = new ArrayList<>();
+		this.isActive = true;
+		this.father = father;
+	}
+
+	public Boolean getActive() {
+		return isActive;
+	}
+
+	public void setDisable() {
+		this.isActive = false;
 	}
 
 	public String getText() {
@@ -44,15 +58,25 @@ public class Commentary {
 		this.id = id;
 	}
 
-	public Answer getAnswer() {
-		return answer;
+	public ArrayList<Commentary> getAnswer() {
+		return answers;
 	}
 
-	public Boolean setAnswer(Answer answer) {
-		if(this.answer == null) {
-			this.answer = answer;
-			return true;
-		} return false;
+	public void addAnswer(Commentary answer) {
+		this.answers.add(answer);
+	}
+
+	public Boolean deleteCommentary(Long id){
+		for (Commentary c : this.answers){
+			if(c.getId() == id){
+				Commentary newComment = c;
+				newComment.setDisable();
+				this.answers.remove(c);
+				this.answers.add(newComment);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getEmail() {

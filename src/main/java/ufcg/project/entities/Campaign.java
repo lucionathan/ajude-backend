@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.data.mongodb.core.aggregation.VariableOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import ufcg.project.DTOs.DeleteCommentDTO;
 import ufcg.project.DTOs.DonationDTO;
 import util.PossibleState;
 
@@ -217,6 +218,27 @@ public class Campaign {
 				return;
 			}
 		}
+	}
+
+	public Boolean deleteCommentary(DeleteCommentDTO delComment){
+		if(delComment.getFather() == -666) {
+			for (Commentary c : this.commentaries) {
+				if (c.getId() == delComment.getId()) {
+					Commentary newComment = c;
+					newComment.setDisable();
+					this.commentaries.remove(c);
+					this.commentaries.add(newComment);
+					return true;
+				}
+			}
+		}else{
+			for (Commentary c : this.commentaries) {
+				if (c.getId() == delComment.getFather()) {
+					return c.deleteCommentary(delComment.getId());
+				}
+			}
+		}
+		return false;
 	}
 
 	public Commentary getCommentary(Long id){

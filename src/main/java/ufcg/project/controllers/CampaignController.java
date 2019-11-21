@@ -7,21 +7,12 @@ import javax.servlet.ServletException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import ufcg.project.DTOs.AnswerDTO;
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
+import ufcg.project.DTOs.DeleteCommentDTO;
 import ufcg.project.DTOs.LikeDeslikeDTO;
-import ufcg.project.entities.Answer;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.services.CampaignService;
@@ -66,7 +57,6 @@ public class CampaignController {
 
         if(jwtService.userExists(header)){
         	Commentary c = this.campaignService.addCommentary(comment);
-			System.out.println(c);
         	if(c == null) {
         		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         	}else {
@@ -75,18 +65,28 @@ public class CampaignController {
         }else {
         	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
     }
 
+    @DeleteMapping("/campaign/commentary")
+	public ResponseEntity<Boolean> delCommentary(@RequestBody DeleteCommentDTO delComment, @RequestHeader("Authorization") String header) throws ServletException {
+    	if(jwtService.userExists(header)){
+    		String emailToken = jwtService.getTokenSubject(header);
+    		Boolean response = this.campaignService.deleteCommentary(delComment, emailToken);
+    		return response ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+		}
+
+    	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	}
+
 	@PostMapping("/campaign/commentary/answer")
-	public ResponseEntity<Answer> addCommentaryAnswer(@RequestBody AnswerDTO answer, @RequestHeader("Authorization") String header) throws ServletException {
+	public ResponseEntity<Commentary> addCommentaryAnswer(@RequestBody CommentaryDTO answer, @RequestHeader("Authorization") String header) throws ServletException {
 
 		if(jwtService.userExists(header)){
-			Answer c = this.campaignService.addAnswer(answer);
+			Commentary c = this.campaignService.addAnswer(answer);
 			if(c == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}else {
-				return new ResponseEntity<Answer>(c, HttpStatus.OK);
+				return new ResponseEntity<>(c, HttpStatus.OK);
 			}
 		}else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

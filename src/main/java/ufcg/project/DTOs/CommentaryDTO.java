@@ -7,12 +7,22 @@ public class CommentaryDTO {
 	private String text;
 	private String shortUrl;
 	private String email;
+	private Long father;
 
 	
-	public CommentaryDTO(String text, String shortUrl, String email) {
+	public CommentaryDTO(String text, String shortUrl, String email, Long father) {
 		this.text = text;
 		this.shortUrl = shortUrl;
 		this.email = email;
+		this.father = father;
+	}
+
+	public Long getFather() {
+		return father;
+	}
+
+	public void setFather(Long father) {
+		this.father = father;
 	}
 
 	public String getText() {
