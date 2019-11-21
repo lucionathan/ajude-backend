@@ -147,6 +147,8 @@ public class CampaignService {
 		if(co != null){
 			Answer a = new Answer(answer.getText(), answer.getCommentaryID(), getID(), answer.getEmail(), answer.getShortUrl());
 			co.setAnswer(a);
+			c.updateCommentary(co);
+			this.campaignRepository.save(c);
 			return a;
 		}
 		return null;

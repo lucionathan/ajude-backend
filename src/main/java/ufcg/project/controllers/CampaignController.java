@@ -66,6 +66,7 @@ public class CampaignController {
 
         if(jwtService.userExists(header)){
         	Commentary c = this.campaignService.addCommentary(comment);
+			System.out.println(c);
         	if(c == null) {
         		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         	}else {

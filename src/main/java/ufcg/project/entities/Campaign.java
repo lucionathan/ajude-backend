@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ufcg.project.DTOs.DonationDTO;
 import util.PossibleState;
 
+import javax.xml.stream.events.Comment;
+
 @Document(collection = "Campaign")
 public class Campaign {
 	
@@ -20,7 +22,7 @@ public class Campaign {
     private PossibleState status;
     private double goal;
     private double donated;
-    private HashMap<Long, Commentary> commentaries;
+    private ArrayList<Commentary> commentaries;
     private String owner;
     private int likes;
     private int deslikes;
@@ -46,7 +48,7 @@ public class Campaign {
         this.deslikes = deslikes;
         this.pessoasDeslike = new HashSet();
 		this.pessoasLike = new HashSet();
-		this.commentaries = new HashMap<>();
+		this.commentaries = new ArrayList<>();
 		this.donations = new LinkedList<>();
     }
     
@@ -204,15 +206,26 @@ public class Campaign {
 	}
 
 	public void addCommentary(Commentary commentary){
-		System.out.println(this.commentaries.values());
-		this.commentaries.put(commentary.getId(), commentary);
+		this.commentaries.add(commentary);
+	}
+
+	public void updateCommentary(Commentary co){
+		for (Commentary c : this.commentaries){
+			if(c.getId() == co.getId()){
+				this.commentaries.remove(c);
+				this.commentaries.add(co);
+				return;
+			}
+		}
 	}
 
 	public Commentary getCommentary(Long id){
-		System.out.println(this.commentaries.get(id));
-		System.out.println(this.commentaries.keySet());
-		System.out.println(this.commentaries.values());
-		return this.commentaries.get(id);
+		for (Commentary c : this.commentaries){
+			if(c.getId() == id){
+				return c;
+			}
+		}
+		return null;
 	}
 
     public void addDonation(DonationDTO donation) {
