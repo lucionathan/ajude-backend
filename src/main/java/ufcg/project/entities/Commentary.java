@@ -6,14 +6,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Comment")
 public class Commentary {
 	private String text;
-	private long campaingID;
+	private String shortUrl;
 	@Id
 	private long id;
+	private Answer answer;
+	private String email;
 	
-	public Commentary(String text, long campaingID, long id) {
+	public Commentary(String text, String shortUrl, long id, String email) {
 		this.text = text;
-		this.campaingID = campaingID;
+		this.shortUrl = shortUrl;
 		this.id = id;
+		this.email = email;
+		this.answer = null;
 	}
 
 	public String getText() {
@@ -24,14 +28,14 @@ public class Commentary {
 		this.text = text;
 	}
 
-	public long getCampaingID() {
-		return campaingID;
+	public String getShortUrl() {
+		return shortUrl;
 	}
 
-	public void setCampaingID(long campaingID) {
-		this.campaingID = campaingID;
+	public void setShortUrl(String shortUrl) {
+		this.shortUrl = shortUrl;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -39,5 +43,23 @@ public class Commentary {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public Boolean setAnswer(Answer answer) {
+		if(this.answer == null) {
+			this.answer = answer;
+			return true;
+		} return false;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

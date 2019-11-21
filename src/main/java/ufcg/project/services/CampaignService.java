@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import ufcg.project.DTOs.AnswerDTO;
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
 import ufcg.project.DTOs.DonationDTO;
+import ufcg.project.entities.Answer;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.repositories.CampaignRepository;
@@ -49,8 +51,13 @@ public class CampaignService {
 	}
 	
 	public Commentary addCommentary(CommentaryDTO comment) {
-		if(this.campaignRepository.findById(comment.getCampaingID()).isPresent()) {
-			Commentary c = new Commentary(comment.getText(), comment.getCampaingID(), getID());
+
+		Optional<Campaign> ca = this.campaignRepository.findByShortUrl(comment.getShortUrl());
+		if(ca.isPresent()) {
+			Commentary c = new Commentary(comment.getText(), comment.getShortUrl(), getID(), comment.getEmail());
+			Campaign caa = ca.get();
+			caa.addCommentary(c);
+			this.campaignRepository.save(caa);
 			this.commentaryRepository.save(c);
 			return c;
 		}else {
@@ -132,5 +139,16 @@ public class CampaignService {
 
 	public List<Campaign> getActiveCampaigns() {
 		return this.campaignRepository.getActive();
+	}
+
+	public Answer addAnswer(AnswerDTO answer) {
+		Campaign c = this.campaignRepository.findByShortUrl(answer.getShortUrl()).get();
+		Commentary co = c.getCommentary(answer.getCommentaryID());
+		if(co != null){
+			Answer a = new Answer(answer.getText(), answer.getCommentaryID(), getID(), answer.getEmail(), answer.getShortUrl());
+			co.setAnswer(a);
+			return a;
+		}
+		return null;
 	}
 }

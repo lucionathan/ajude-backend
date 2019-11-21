@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ufcg.project.DTOs.AnswerDTO;
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
 import ufcg.project.DTOs.LikeDeslikeDTO;
+import ufcg.project.entities.Answer;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Commentary;
 import ufcg.project.services.CampaignService;
@@ -59,7 +61,7 @@ public class CampaignController {
 
     }
     
-    @PostMapping("/campaign/{idCampanha}/commentary")
+    @PostMapping("/campaign/commentary")
     public ResponseEntity<Commentary> addCommentary(@RequestBody CommentaryDTO comment, @RequestHeader("Authorization") String header) throws ServletException {
 
         if(jwtService.userExists(header)){
@@ -74,6 +76,22 @@ public class CampaignController {
         }
 
     }
+
+	@PostMapping("/campaign/commentary/answer")
+	public ResponseEntity<Answer> addCommentaryAnswer(@RequestBody AnswerDTO answer, @RequestHeader("Authorization") String header) throws ServletException {
+
+		if(jwtService.userExists(header)){
+			Answer c = this.campaignService.addAnswer(answer);
+			if(c == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}else {
+				return new ResponseEntity<Answer>(c, HttpStatus.OK);
+			}
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+	}
     
     @GetMapping("/campaign/substring")
     public ResponseEntity<List<Campaign>> getCampaignsBySubString(@RequestParam(name="substring") String substring,@RequestParam(name="status", required=false, defaultValue="true")boolean status, @RequestHeader("Authorization") String header) throws ServletException{

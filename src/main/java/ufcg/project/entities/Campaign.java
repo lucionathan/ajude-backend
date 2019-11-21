@@ -20,6 +20,7 @@ public class Campaign {
     private PossibleState status;
     private double goal;
     private double donated;
+    private HashMap<Long, Commentary> commentaries;
     private String owner;
     private int likes;
     private int deslikes;
@@ -45,6 +46,7 @@ public class Campaign {
         this.deslikes = deslikes;
         this.pessoasDeslike = new HashSet();
 		this.pessoasLike = new HashSet();
+		this.commentaries = new HashMap<>();
 		this.donations = new LinkedList<>();
     }
     
@@ -199,6 +201,18 @@ public class Campaign {
 
 	public void setPessoasDeslike(Set pessoasDeslike) {
 		this.pessoasDeslike = pessoasDeslike;
+	}
+
+	public void addCommentary(Commentary commentary){
+		System.out.println(this.commentaries.values());
+		this.commentaries.put(commentary.getId(), commentary);
+	}
+
+	public Commentary getCommentary(Long id){
+		System.out.println(this.commentaries.get(id));
+		System.out.println(this.commentaries.keySet());
+		System.out.println(this.commentaries.values());
+		return this.commentaries.get(id);
 	}
 
     public void addDonation(DonationDTO donation) {

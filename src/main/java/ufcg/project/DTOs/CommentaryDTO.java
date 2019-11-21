@@ -5,12 +5,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class CommentaryDTO {
 	private String text;
-	private long campaingID;
+	private String shortUrl;
+	private String email;
 
 	
-	public CommentaryDTO(String text, long campaingID) {
+	public CommentaryDTO(String text, String shortUrl, String email) {
 		this.text = text;
-		this.campaingID = campaingID;
+		this.shortUrl = shortUrl;
+		this.email = email;
 	}
 
 	public String getText() {
@@ -21,13 +23,19 @@ public class CommentaryDTO {
 		this.text = text;
 	}
 
-	public long getCampaingID() {
-		return campaingID;
+	public String getShortUrl() {
+		return shortUrl;
 	}
 
-	public void setCampaingID(long campaingID) {
-		this.campaingID = campaingID;
+	public void setShortUrl(String shortUrl) {
+		this.shortUrl = shortUrl;
 	}
-	
-	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
