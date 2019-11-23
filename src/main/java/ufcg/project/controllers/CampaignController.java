@@ -104,7 +104,7 @@ public class CampaignController {
     }
 
 	@GetMapping("/campaign/{shortUrl}")
-	public ResponseEntity<Campaign> getCampaignByShortUrl(@PathVariable("shortUrl") String shortUrl, @RequestHeader("Authorization") String header) throws ServletException{
+	public ResponseEntity<Campaign> getCampaignByShortUrl(@PathVariable("shortUrl") String shortUrl) throws ServletException{
 		Optional<Campaign> c = this.campaignService.getCampaignByShorturl(shortUrl);
 		if(c.isPresent()) {
 			return new ResponseEntity<Campaign>(c.get(), HttpStatus.OK);
@@ -145,6 +145,7 @@ public class CampaignController {
     @PutMapping("/campaign/updateLikeDeslike")
 	public ResponseEntity<Campaign> updateLikeDeslike(@RequestBody LikeDeslikeDTO dto, @RequestHeader("Authorization") String header) throws ServletException{
     	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortUrl());
+    	System.out.println(header);
     	if(c.isPresent()){
     		if(this.jwtService.userExists(header)){
     			Campaign retorno = this.campaignService.updateLikeDeslike(c.get(), dto.getChoice().trim(), jwtService.getTokenSubject(header));

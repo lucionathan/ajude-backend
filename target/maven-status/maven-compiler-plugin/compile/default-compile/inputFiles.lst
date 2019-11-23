@@ -9,6 +9,7 @@
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/CommentaryDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/User.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/DonationService.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/DeleteCommentDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/CampaignDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/services/UserService.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/UserRepository.java
