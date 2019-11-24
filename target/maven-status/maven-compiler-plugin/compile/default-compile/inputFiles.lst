@@ -1,5 +1,6 @@
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/UserDTO.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/entities/Campaign.java
+/home/kaladin/psoft/ajude/ajude-backend/src/main/java/AjudeDocumentation.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/controllers/DonationController.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/DTOs/Password.java
 /home/kaladin/psoft/ajude/ajude-backend/src/main/java/ufcg/project/repositories/CommentaryRepository.java

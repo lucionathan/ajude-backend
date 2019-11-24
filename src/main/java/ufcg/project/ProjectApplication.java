@@ -6,10 +6,12 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import ufcg.project.filter.TokenFilter;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableSwagger2
 public class ProjectApplication {
 
 	@Bean
