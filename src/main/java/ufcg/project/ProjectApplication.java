@@ -13,7 +13,6 @@ import ufcg.project.filter.TokenFilter;
 @EnableScheduling
 @EnableSwagger2
 public class ProjectApplication {
-
 	@Bean
 	public FilterRegistrationBean<TokenFilter> filterJwt() {
 		FilterRegistrationBean<TokenFilter> filterRB = new FilterRegistrationBean<TokenFilter>();

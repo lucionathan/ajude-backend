@@ -81,7 +81,14 @@ public class User {
     public void addDonation(Donation donation) {
         this.donations.add(donation);
     }
-    
+
+    public List<Donation> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(List<Donation> donations) {
+        this.donations = donations;
+    }
 
     @Override
     public String toString() {

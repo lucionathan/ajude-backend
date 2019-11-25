@@ -162,7 +162,7 @@ public class CampaignController {
     
     @GetMapping("/campaign/user/{owner}")
     public ResponseEntity<List<Campaign>> getCampaignByOwner(@PathVariable String owner, @RequestHeader("Authorization") String header) throws ServletException{
-    	if(this.jwtService.userHasPermission(header, owner)){
+    	if(this.jwtService.userExists(header)){
     		return new ResponseEntity<List<Campaign>>(this.campaignService.getCampaignByOwner(owner), HttpStatus.OK);
     	}else {
     		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -194,8 +194,24 @@ public class Campaign {
 		return pessoasLike;
 	}
 
-	public void setPessoasLike(Set pessoasLike) {
+	public ArrayList<Commentary> getCommentaries() {
+		return commentaries;
+	}
+
+	public void setCommentaries(ArrayList<Commentary> commentaries) {
+		this.commentaries = commentaries;
+	}
+
+	public void setPessoasLike(Set<String> pessoasLike) {
 		this.pessoasLike = pessoasLike;
+	}
+
+	public List<DonationDTO> getDonations() {
+		return donations;
+	}
+
+	public void setDonations(List<DonationDTO> donations) {
+		this.donations = donations;
 	}
 
 	public Set getPessoasDeslike() {
