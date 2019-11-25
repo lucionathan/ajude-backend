@@ -95,7 +95,7 @@ public class CampaignController {
 	}
     
     @GetMapping("/campaign/substring")
-    public ResponseEntity<List<Campaign>> getCampaignsBySubString(@RequestParam(name="substring") String substring,@RequestParam(name="status", required=false, defaultValue="true")boolean status, @RequestHeader("Authorization") String header) throws ServletException{
+    public ResponseEntity<List<Campaign>> getCampaignsBySubString(@RequestParam(name="substring") String substring,@RequestParam(name="status", required=false, defaultValue="true")boolean status) throws ServletException{
     	if(jwtService.userExists(header)) {
     		return new ResponseEntity<List<Campaign>>(this.campaignService.getCampaignsBySubstring(substring, status), HttpStatus.OK);    		
     	}else {
