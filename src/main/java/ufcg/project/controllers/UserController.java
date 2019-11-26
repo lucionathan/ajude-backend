@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ufcg.project.DTOs.Email;
 import ufcg.project.DTOs.Password;
+import ufcg.project.DTOs.UserDTOFront;
 import ufcg.project.DTOs.UserDTOpass;
 import ufcg.project.entities.User;
 import ufcg.project.services.JWTService;
@@ -42,19 +43,19 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user) {
 
         User u = service.addUser(user);
-        if(u != null) {
+        if (u != null) {
             return new ResponseEntity<User>(u, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/user/forgot")
-    public ResponseEntity<Boolean> forgotPassword(@RequestBody Email email, HttpServletRequest request){
+    public ResponseEntity<Boolean> forgotPassword(@RequestBody Email email, HttpServletRequest request) {
         Optional<User> u = service.getUser(email.getEmail());
 
-        if(!u.isPresent()){
+        if (!u.isPresent()) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-        }else{
+        } else {
             User user = u.get();
             String token = Jwts.builder().setSubject(u.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
                     .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
@@ -74,18 +75,18 @@ public class UserController {
         Optional<User> optional = service.getUserByToken(token);
         System.out.println("DEBUG TOKEN " + token);
 
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             User resetUser = optional.get();
-            if(jwtService.userHasPermission("Bearer " + token, resetUser.getEmail())){
+            if (jwtService.userHasPermission("Bearer " + token, resetUser.getEmail())) {
                 resetUser.setPassword(new_password.getPassword());
                 resetUser.setToken("");
                 service.updateUser(resetUser);
                 return new ResponseEntity<>(true, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
             }
 
-        }else{
+        } else {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
 
@@ -95,25 +96,26 @@ public class UserController {
     public ResponseEntity<Boolean> changePassword(@RequestBody UserDTOpass user, @RequestHeader("Authorization") String header) throws ServletException {
 
         Optional<User> authUser = service.getUser(user.getEmail());
-        if(!authUser.get().getPassword().equals(user.getPassword()) || !jwtService.userHasPermission(header, user.getEmail())){
+        if (!authUser.get().getPassword().equals(user.getPassword()) || !jwtService.userHasPermission(header, user.getEmail())) {
             return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
-        if(authUser.isEmpty()){
+        if (authUser.isEmpty()) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
 
         service.updatePassword(user.getEmail(), user.getNewPassword());
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
-    
+
     @GetMapping("user/{email}")
-    public ResponseEntity<User> getUser(@PathVariable String email){
-    	Optional<User> user = this.service.getUser(email);
-    	if(user.isPresent()) {
-    		return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-    	}else {
-    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    	}
+    public ResponseEntity<UserDTOFront> getUser(@PathVariable String email) {
+        User user = this.service.getUser(email).get();
+        if (user != null) {
+            UserDTOFront userRet = new UserDTOFront(user.getFirstName(), user.getLastName(), user.getDonations());
+            return new ResponseEntity<UserDTOFront>(userRet, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

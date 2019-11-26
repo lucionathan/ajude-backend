@@ -21,6 +21,7 @@ public class User {
     private String token;
     private List<Donation> donations;
 
+
     @JsonCreator
     public User(String firstName, String lastName, String email, String creditCard, String password) {
         this.firstName = firstName;
@@ -81,7 +82,14 @@ public class User {
     public void addDonation(Donation donation) {
         this.donations.add(donation);
     }
-    
+
+    public List<Donation> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(List<Donation> donations) {
+        this.donations = donations;
+    }
 
     @Override
     public String toString() {
