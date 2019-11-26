@@ -8,6 +8,9 @@ import ufcg.project.entities.Donation;
 import ufcg.project.entities.User;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class DonationService {
@@ -25,7 +28,7 @@ public class DonationService {
         Campaign campaign = campaignService.getCampaignByShorturl(shortUrl).get();
         if (campaign != null) {
             LocalDate date = LocalDate.now();
-            Donation donationUser = new Donation(valueDonation.getDonatedValue(), date, campaign);
+            Donation donationUser = new Donation(valueDonation.getDonatedValue(), date, shortUrl);
             DonationDTO donationCampaign = new DonationDTO(valueDonation.getDonatedValue(), user.getEmail());
 
             userService.doDonation(user, donationUser);
@@ -34,5 +37,14 @@ public class DonationService {
             return campaign;
         }
         return null;
+    }
+
+
+    public List<Campaign> getCampaignByDonator(String donator) {
+        List<Donation> donationsUser = userService.getUser(donator).get().getDonations();
+        List<String> campaignsDonation= new LinkedList<>();
+        donationsUser.forEach(donation -> campaignsDonation.add(donation.getCampaign()));
+        return campaignService.getCampaignsDonated(campaignsDonation);
+
     }
 }

@@ -8,10 +8,10 @@ public class Donation {
 
     private double valueDonated;
     private LocalDate date;
-    private Campaign campaign;
+    private String campaign;
 
     @JsonCreator
-    public Donation(double valueDonated, LocalDate date, Campaign campaign) {
+    public Donation(double valueDonated, LocalDate date, String campaign) {
         this.valueDonated = valueDonated;
         this.date = date;
         this.campaign = campaign;
@@ -25,11 +25,11 @@ public class Donation {
         this.valueDonated = valueDonated;
     }
 
-    public Campaign getCampaign() {
+    public String getCampaign() {
         return campaign;
     }
 
-    public void setCampaign(Campaign campaign) {
+    public void setCampaign(String campaign) {
         this.campaign = campaign;
     }
 }
