@@ -66,6 +66,14 @@ public class Commentary {
 		this.answers.add(answer);
 	}
 
+	public long getFather() {
+		return father;
+	}
+
+	public void setFather(long father) {
+		this.father = father;
+	}
+
 	public Boolean deleteCommentary(Long id){
 		for (Commentary c : this.answers){
 			if(c.getId() == id){
