@@ -70,8 +70,7 @@ public class CampaignController {
     @DeleteMapping("/campaign/commentary")
 	public ResponseEntity<Boolean> delCommentary(@RequestBody DeleteCommentDTO delComment, @RequestHeader("Authorization") String header) throws ServletException {
     	if(jwtService.userExists(header)){
-    		String emailToken = jwtService.getTokenSubject(header);
-    		Boolean response = this.campaignService.deleteCommentary(delComment, emailToken);
+    		Boolean response = this.campaignService.deleteCommentary(delComment);
     		return response ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		}
 
