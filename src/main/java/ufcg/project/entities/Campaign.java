@@ -206,6 +206,14 @@ public class Campaign {
 		this.pessoasDeslike = pessoasDeslike;
 	}
 
+	public ArrayList<Commentary> getCommentaries() {
+		return commentaries;
+	}
+
+	public List<DonationDTO> getDonations() {
+		return donations;
+	}
+
 	public void addCommentary(Commentary commentary){
 		this.commentaries.add(commentary);
 	}
