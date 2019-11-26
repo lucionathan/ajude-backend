@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import ufcg.project.DTOs.CampaignDTO;
 import ufcg.project.DTOs.CommentaryDTO;
 import ufcg.project.DTOs.DeleteCommentDTO;
@@ -20,6 +21,7 @@ import ufcg.project.repositories.CampaignRepository;
 import ufcg.project.repositories.CommentaryRepository;
 import util.PossibleState;
 
+@CrossOrigin
 @Service
 public class CampaignService {
 

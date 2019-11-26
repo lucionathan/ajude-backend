@@ -15,6 +15,7 @@ import ufcg.project.services.JWTService;
 import javax.servlet.ServletException;
 import java.util.List;
 
+@CrossOrigin
 @Controller
 public class DonationController {
 
@@ -46,4 +47,5 @@ public class DonationController {
         }
 
     }
+
 }
