@@ -42,7 +42,7 @@ public class DonationController {
     @GetMapping("/user/{email}")
     public ResponseEntity<UserDTOFront> getUser(@PathVariable String email, @RequestHeader("Authorization") String header) throws ServletException{
         if(this.jwtService.userExists(header)){
-            return new ResponseEntity<UserDTOFront>(this.donationService.getCampaignByDonator(email), HttpStatus.OK);
+            return new ResponseEntity<UserDTOFront>(this.donationService.getUser(email), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

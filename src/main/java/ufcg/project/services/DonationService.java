@@ -40,7 +40,7 @@ public class DonationService {
     }
 
 
-    public UserDTOFront getCampaignByDonator(String email) {
+    public UserDTOFront getUser(String email) {
         User user = userService.getUser(email).get();
         List<String> campaignsDonation = new LinkedList<>();
         user.getDonations().forEach(donation -> campaignsDonation.add(donation.getCampaign()));

@@ -156,15 +156,11 @@ public class CampaignService {
         return null;
     }
 
-    public Boolean deleteCommentary(DeleteCommentDTO delComment, String emailToken) {
+    public Boolean deleteCommentary(DeleteCommentDTO delComment) {
         Campaign c = this.campaignRepository.findByShortUrl(delComment.getShortUrl()).get();
-        if (c.getOwner().equals(emailToken)) {
-            Boolean response = c.deleteCommentary(delComment);
-            this.campaignRepository.save(c);
-            return response;
-        } else {
-            return false;
-        }
+        Boolean response = c.deleteCommentary(delComment);
+        this.campaignRepository.save(c);
+        return response;
     }
 
     public List<Campaign> getCampaignsUser(List<String> campaignsDonation, String user) {
