@@ -167,9 +167,12 @@ public class CampaignService {
         }
     }
 
-    public List<Campaign> getCampaignsDonated(List<String> campaignsDonation) {
+    public List<Campaign> getCampaignsUser(List<String> campaignsDonation, String user) {
         List<Campaign> campaignsList = new LinkedList<>();
         campaignsDonation.forEach(campaign -> campaignsList.add(campaignRepository.findByShortUrl(campaign).get()));
+        List<Campaign> campaignsOwnedByUser = campaignRepository.findByOwner(user);
+        campaignsOwnedByUser.forEach(campaign -> campaignsList.add(campaign));
+
         return campaignsList;
     }
 }

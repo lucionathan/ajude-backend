@@ -3,12 +3,12 @@ package ufcg.project.services;
 import org.springframework.stereotype.Service;
 import ufcg.project.DTOs.DonationDTO;
 import ufcg.project.DTOs.DonationDTOValue;
+import ufcg.project.DTOs.UserDTOFront;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.Donation;
 import ufcg.project.entities.User;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,11 +40,11 @@ public class DonationService {
     }
 
 
-    public List<Campaign> getCampaignByDonator(String donator) {
-        List<Donation> donationsUser = userService.getUser(donator).get().getDonations();
-        List<String> campaignsDonation= new LinkedList<>();
-        donationsUser.forEach(donation -> campaignsDonation.add(donation.getCampaign()));
-        return campaignService.getCampaignsDonated(campaignsDonation);
-
+    public UserDTOFront getCampaignByDonator(String email) {
+        User user = userService.getUser(email).get();
+        List<String> campaignsDonation = new LinkedList<>();
+        user.getDonations().forEach(donation -> campaignsDonation.add(donation.getCampaign()));
+        List<Campaign> campaigns = campaignService.getCampaignsUser(campaignsDonation, email);
+        return new UserDTOFront(user.getFirstName(), user.getLastName(), campaigns);
     }
 }

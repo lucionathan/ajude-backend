@@ -107,16 +107,6 @@ public class UserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @GetMapping("user/{email}")
-    public ResponseEntity<UserDTOFront> getUser(@PathVariable String email) {
-        User user = this.service.getUser(email).get();
-        if (user != null) {
-            UserDTOFront userRet = new UserDTOFront(user.getFirstName(), user.getLastName());
-            return new ResponseEntity<UserDTOFront>(userRet, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
 }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import ufcg.project.DTOs.DonationDTOValue;
+import ufcg.project.DTOs.UserDTOFront;
 import ufcg.project.entities.Campaign;
 import ufcg.project.entities.User;
 import ufcg.project.services.DonationService;
@@ -38,10 +39,10 @@ public class DonationController {
         }
     }
 
-    @GetMapping("/campaign/{donator}/donated")
-    public ResponseEntity<List<Campaign>> getCampaignByDonator(@PathVariable String donator, @RequestHeader("Authorization") String header) throws ServletException{
+    @GetMapping("/user/{email}")
+    public ResponseEntity<UserDTOFront> getUser(@PathVariable String email, @RequestHeader("Authorization") String header) throws ServletException{
         if(this.jwtService.userExists(header)){
-            return new ResponseEntity<List<Campaign>>(this.donationService.getCampaignByDonator(donator), HttpStatus.OK);
+            return new ResponseEntity<UserDTOFront>(this.donationService.getCampaignByDonator(email), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
