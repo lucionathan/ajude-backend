@@ -62,7 +62,7 @@ public class UserController {
             user.setToken(token);
             service.updateUser(user);
             System.out.println(user.toString());
-            String appURL = request.getScheme() + "://" + request.getServerName() + ":8080/user/reset?token=" + user.getToken();
+            String appURL = request.getScheme() + "://localhost:8000/user/reset?token=" + user.getToken();
             emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
