@@ -24,9 +24,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@CrossOrigin
-@RestController
-public class UserController {
+    @CrossOrigin
+    @RestController
+    public class UserController {
 
     @Autowired
     private UserService service;
@@ -61,26 +61,7 @@ public class UserController {
                     .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
             user.setToken(token);
             service.updateUser(user);
-            String appURL = request.getScheme() + "://localhost:8000/reset/" + user.getToken();
-            emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        }
-
-    }
-
-    @PostMapping("/user/change")
-    public ResponseEntity<Boolean> change(@RequestBody Email email, HttpServletRequest request) {
-        Optional<User> u = service.getUser(email.getEmail());
-
-        if (!u.isPresent()) {
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-        } else {
-            User user = u.get();
-            String token = Jwts.builder().setSubject(u.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
-                    .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
-            user.setToken(token);
-            service.updateUser(user);
-            String appURL = request.getScheme() + "://localhost:8000/changePassword/" + user.getToken();
+            String appURL = request.getScheme() + "://localhost:8000/reset?token=" + user.getToken();
             emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
