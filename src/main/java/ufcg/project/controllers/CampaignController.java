@@ -109,17 +109,18 @@ public class CampaignController {
 	}
     
     @PutMapping("/campaign/{shortUrl}")
-    public ResponseEntity<Campaign> updateCampaignByShortUrl(@RequestBody Campaign campaign,@PathVariable("shortUrl") String shortUrl, @RequestHeader("Authorization") String header) throws ServletException{
-    	if(this.jwtService.userHasPermission(campaign.getOwner(), header)) {
-    		Optional<Campaign> c = this.campaignService.getCampaignByShorturl(shortUrl);
-    		if(c.isPresent()) {
-    			return new ResponseEntity<Campaign>(this.campaignService.updateCampaign(campaign), HttpStatus.OK);
+    public ResponseEntity<Campaign> updateCampaignByShortUrl(@RequestBody CampaignDTO campaign,@PathVariable("shortUrl") String shortUrl, @RequestHeader("Authorization") String header) throws ServletException{
+    	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(shortUrl);
+    	if(c.isPresent()) {
+    		if(this.jwtService.userHasPermission(header, c.get().getOwner())) {
+    			return new ResponseEntity<Campaign>(this.campaignService.updateCampaign(campaign),HttpStatus.OK);
     		}else {
-    			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);	
     		}
     	}else {
-    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
+    	
     }
     
     @PutMapping("/campaign/{shortUrl}/end")

@@ -111,8 +111,17 @@ public class CampaignService {
         return this.campaignRepository.findByShortUrl(shortUrl);
     }
 
-    public Campaign updateCampaign(Campaign campaign) {
-        return this.campaignRepository.save(campaign);
+    public Campaign updateCampaign(CampaignDTO campaign) {
+    	Campaign c = this.campaignRepository.findByShortUrl(campaign.getShortUrl()).get();
+    	String[] data = campaign.getDate().split("/");
+        LocalDate expiresAt = LocalDate.of(Integer.parseInt(data[2]), Integer.parseInt(data[1]), Integer.parseInt(data[0]));
+    	c.setDate(expiresAt);
+    	c.setDescription(campaign.getDescription());
+    	c.setGoal(campaign.getGoal());
+    	c.setShortName(campaign.getShortName());
+    	
+    	
+        return this.campaignRepository.save(c);
     }
 
     public void deleteCampaign(String shortUrl) {
