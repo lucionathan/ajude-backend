@@ -61,7 +61,7 @@ import java.util.UUID;
                     .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
             user.setToken(token);
             service.updateUser(user);
-            String appURL ="http://localhost:8000/#/reset?token=" + user.getToken();
+            String appURL ="http://localhost:8000/#/reset/?token=" + user.getToken();
             emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
