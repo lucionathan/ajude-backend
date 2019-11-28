@@ -61,8 +61,26 @@ public class UserController {
                     .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
             user.setToken(token);
             service.updateUser(user);
-            System.out.println(user.toString());
-            String appURL = request.getScheme() + "://localhost:8000/user/reset?token=" + user.getToken();
+            String appURL = request.getScheme() + "://localhost:8000/reset/" + user.getToken();
+            emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+
+    }
+
+    @PostMapping("/user/change")
+    public ResponseEntity<Boolean> change(@RequestBody Email email, HttpServletRequest request) {
+        Optional<User> u = service.getUser(email.getEmail());
+
+        if (!u.isPresent()) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        } else {
+            User user = u.get();
+            String token = Jwts.builder().setSubject(u.get().getEmail()).signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
+                    .setExpiration(new Date(System.currentTimeMillis() + 50 * 60 * 10000)).compact();
+            user.setToken(token);
+            service.updateUser(user);
+            String appURL = request.getScheme() + "://localhost:8000/changePassword/" + user.getToken();
             emailService.recoverMail(user.getFirstName(), appURL, user.getEmail());
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
@@ -73,7 +91,6 @@ public class UserController {
     public ResponseEntity<Boolean> resetPassword(@RequestParam("token") String token, @RequestBody Password new_password) throws ServletException {
 
         Optional<User> optional = service.getUserByToken(token);
-        System.out.println("DEBUG TOKEN " + token);
 
         if (optional.isPresent()) {
             User resetUser = optional.get();

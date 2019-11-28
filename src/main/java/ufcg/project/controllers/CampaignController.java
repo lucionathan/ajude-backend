@@ -140,7 +140,6 @@ public class CampaignController {
     @PutMapping("/campaign/updateLikeDeslike")
 	public ResponseEntity<Campaign> updateLikeDeslike(@RequestBody LikeDeslikeDTO dto, @RequestHeader("Authorization") String header) throws ServletException{
     	Optional<Campaign> c = this.campaignService.getCampaignByShorturl(dto.getShortUrl());
-    	System.out.println(header);
     	if(c.isPresent()){
     		if(this.jwtService.userExists(header)){
     			Campaign retorno = this.campaignService.updateLikeDeslike(c.get(), dto.getChoice().trim(), jwtService.getTokenSubject(header));
